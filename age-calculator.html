@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f3f4f6;
+            margin: 0;
+        }
+        .age-calculator {
+            background: #ffffff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        input[type="number"] {
+            padding: 8px;
+            width: 100%;
+            margin: 8px 0;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4f46e5;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #4338ca;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #111827;
+        }
+    </style>
+</head>
+<body>
+    <div class="age-calculator">
+        <h2>Age Calculator</h2>
+        <form id="ageForm">
+            <label for="day">Day:</label>
+            <input type="number" id="day" name="day" placeholder="DD" min="1" max="31" required>
+
+            <label for="month">Month:</label>
+            <input type="number" id="month" name="month" placeholder="MM" min="1" max="12" required>
+
+            <label for="year">Year:</label>
+            <input type="number" id="year" name="year" placeholder="YYYY" min="1900" required>
+
+            <button type="button" onclick="calculateAge()">Calculate Age</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function calculateAge() {
+            const day = parseInt(document.getElementById('day').value);
+            const month = parseInt(document.getElementById('month').value) - 1;
+            const year = parseInt(document.getElementById('year').value);
+
+            if (isNaN(day) || isNaN(month) || isNaN(year)) {
+                document.getElementById('result').innerText = 'Please enter a valid date.';
+                return;
+            }
+
+            const today = new Date();
+            const birthDate = new Date(year, month, day);
+
+            if (birthDate > today) {
+                document.getElementById('result').innerText = 'The birth date cannot be in the future.';
+                return;
+            }
+
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+
+            document.getElementById('result').innerText = `You are ${age} years old.`;
+        }
+    </script>
+</body>
+</html>
